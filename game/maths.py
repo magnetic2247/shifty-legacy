@@ -12,13 +12,13 @@ Drivetrain transmission ratios:
 """
 
 # Input RPM, get speed
-def speed(engine_rpm, diameter, d_t_ratio):
+def speed(engine_rpm, wheel_diameter, drive_train_ratio):
     # Theoretical RPM
-    rpm = engine_rpm/d_t_ratio
+    rpm = engine_rpm / drive_train_ratio
 
     # Max RPM Reached
     if rpm >= 6500:
-        return (6500*diameter*math.pi*60)/63360
+        return (6500*wheel_diameter*math.pi*60)/63360
     # Regular RPM Calculation
     else:
-        return (rpm*diameter*math.pi*60)/63360
+        return (rpm*wheel_diameter*math.pi*60)/63360
