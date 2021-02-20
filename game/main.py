@@ -1,6 +1,9 @@
 # Pygame Library
 import pygame
 
+# Sprites Classes
+from sprites import *
+
 # Keys
 from pygame.locals import (
     K_UP,
@@ -21,13 +24,11 @@ SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 # Assets
-# Road
-mark = pygame.Surface((15,50))
-mark_pos = (10, 10)
-mark.fill((255, 255, 255))
+# Background
+bg = BackgroundScroll("../assets/bg.png")
 
 # Car :D
-car = pygame.transform.scale2x(pygame.image.load("../assets/blue_car.png"))
+car = Car("../assets/blue_car.png")
 
 # Run until user quits
 getTicksLastFrame = 0
@@ -47,11 +48,10 @@ while running:
     screen.fill((0,0,0))
 
     # Road
-    mark_pos = (10, mark_pos[1]+20*deltaTime)
-    screen.blit(mark, mark_pos)
+    screen.blit(bg, (0,0))
     
-    # Car
-    screen.blit(car, (SCREEN_WIDTH/2 - car.get_width()/2, SCREEN_HEIGHT/2 - car.get_height()/2))
+    # Draw Cars
+    screen.blit(car.surface, (SCREEN_WIDTH/2 - car.surface.get_width()/2, SCREEN_HEIGHT/2 - car.surface.get_height()/2))
 
     # Update Display
     pygame.display.flip()
