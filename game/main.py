@@ -11,7 +11,8 @@ running = True
 while True:
     # Event Loop
     for event in pygame.event.get():
-        if event.type == pygame.QUIT
+        if event.type == pygame.QUIT:
+            running = False
 
     # Fill Screen to reset it
     screen.fill((0,0,0))
