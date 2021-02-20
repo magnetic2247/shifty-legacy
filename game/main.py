@@ -8,7 +8,7 @@ screen = pygame.display.set_mode([500, 500])
 
 # Run until user quits
 running = True
-while True:
+while running:
     # Event Loop
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
