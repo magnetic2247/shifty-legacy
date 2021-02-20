@@ -1,7 +1,7 @@
 import math
 
 """
-Drivetrain transmission ratios :
+Drivetrain transmission ratios:
 
 1 gear | 3.56
 2 gear | 2.53
@@ -11,12 +11,14 @@ Drivetrain transmission ratios :
 
 """
 
-def wheel_rpm(engine_rpm, d_t_ratio) :
-    return (engine_rpm/d_t_ratio)
+# Input RPM, get speed
+def speed(engine_rpm, diameter, d_t_ratio):
+    # Theoretical RPM
+    rpm = engine_rpm/d_t_ratio
 
-def speed(engine_rpm, diameter, d_t_ratio) :
-    rpm = wheel_rpm(engine_rpm, d_t_ratio)
+    # Max RPM Reached
     if rpm >= 6500:
         return (6500*diameter*math.pi*60)/63360
-    else :
+    # Regular RPM Calculation
+    else:
         return (rpm*diameter*math.pi*60)/63360
