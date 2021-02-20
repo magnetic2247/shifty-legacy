@@ -1,1 +1,1 @@
-# Shitfy Game
+# Shifty Game
