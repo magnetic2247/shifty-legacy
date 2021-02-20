@@ -5,13 +5,39 @@ import pygame
 class Car(pygame.sprite.Sprite):
     # Class Properties
     surface = None
+    start_pos = (0,0)
     pos = (0,0)
     speed = 0
 
     # Constructor
-    def __init__(self, asset_location):
+    def __init__(self, asset_location, start_position):
+        # Call Sprite Constructor
         super(Car, self).__init__()
-        self.surface = pygame.transform.scale(pygame.image.load(asset_location), (int(32*1.5), int(62*1.5)))
+
+        # Load Sprite
+        self.surface = pygame.transform.scale(
+            pygame.image.load(asset_location), 
+            (int(32*1.5), int(62*1.5))
+        )
+
+        # Set start position
+        self.actual_pos = start_position
+        self.target_pos = start_position
+        self.start_pos = start_position
+
+    # Update Position Index
+    def update_position_index(self, index):
+        self.target_pos = (self.start_pos[0], self.start_pos[1] + 50*index)
+
+    # Update Position
+    def update(self, delta):
+        if self.actual_pos != self.target_pos:
+            # Target Position under Actual Position
+            if self.target_pos[1] > self.actual_pos[1]:
+                self.actual_pos = (self.start_pos[0], self.actual_pos[1] + 2*delta)
+            # Target Position over Actual Position
+            if self.target_pos[1] < self.actual_pos[1]:
+                self.actual_pos = (self.start_pos[0], self.actual_pos[1] - 2*delta)
 
 # Dynamic Scrolling Background
 class BackgroundScroll(pygame.sprite.Sprite):
