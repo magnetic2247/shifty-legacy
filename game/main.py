@@ -24,11 +24,12 @@ SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 # Assets
-# Background
-bg = BackgroundScroll("../assets/bg.png")
+# Background Scroll
+bg = BackgroundScroll("../assets/bg.png", (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Car :D
-car = Car("../assets/blue_car.png")
+car1 = Car("../assets/black_car.png")
+car2 = Car("../assets/blue_car.png")
 
 # Run until user quits
 getTicksLastFrame = 0
@@ -48,10 +49,12 @@ while running:
     screen.fill((0,0,0))
 
     # Road
-    screen.blit(bg, (0,0))
+    bg.update(10, deltaTime)
+    screen.blit(bg.virtual_screen, (0,0))
     
     # Draw Cars
-    screen.blit(car.surface, (SCREEN_WIDTH/2 - car.surface.get_width()/2, SCREEN_HEIGHT/2 - car.surface.get_height()/2))
+    screen.blit(car1.surface, (340, 400))
+    screen.blit(car2.surface, (410, 400))
 
     # Update Display
     pygame.display.flip()
