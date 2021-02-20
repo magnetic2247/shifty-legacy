@@ -1,5 +1,30 @@
 # Pygame library
-import pygame 
+import pygame
+
+# Maths
+import maths
+
+# Dash Display
+class Dash(pygame.sprite.Sprite):
+    # Class Properties
+    surface = pygame.Surface((150,10))
+    font = pygame.font.Font("../assets/font.ttf", 10)
+    speed = 0
+    rpm = 0
+
+    # Constructor
+    def __init__(self):
+        # Call Sprite Constructor
+        super(Dash, self).__init__()
+
+    # Update 
+    def update(self, speed=speed, rpm=rpm):
+        self.surface.fill((0,255,0))
+        self.surface.set_colorkey((0,255,0))
+        self.surface.blit(
+            self.font.render("Speed: "+str(speed)+" km/h", False, (0,0,0)),
+            (0,0)
+        )
 
 # Car Class
 class Car(pygame.sprite.Sprite):
@@ -7,7 +32,10 @@ class Car(pygame.sprite.Sprite):
     surface = None
     start_pos = (0,0)
     pos = (0,0)
+    dash = Dash()
     speed = 0
+    geer = 1
+    rpm = 0
 
     # Constructor
     def __init__(self, asset_location, start_position):
@@ -29,8 +57,16 @@ class Car(pygame.sprite.Sprite):
     def update_position_index(self, index):
         self.target_pos = (self.start_pos[0], self.start_pos[1] + 50*index)
 
-    # Update Position
+    # Update Physics
+    def update_physics(self, delta):
+        # Plug in maths functions
+        if self.rpm < 6500:
+            self.rpm = int(self.rpm+20*10*delta)
+        self.speed = maths.speed(self.rpm, 20, 3.56)
+
+    # Update
     def update(self, delta):
+        # Position
         if self.actual_pos != self.target_pos:
             # Target Position under Actual Position
             if self.target_pos[1] > self.actual_pos[1]:
@@ -38,6 +74,12 @@ class Car(pygame.sprite.Sprite):
             # Target Position over Actual Position
             if self.target_pos[1] < self.actual_pos[1]:
                 self.actual_pos = (self.start_pos[0], self.actual_pos[1] - 2*delta)
+
+        # Physics
+        self.update_physics(delta)
+
+        # Dash
+        self.dash.update(self.speed, self.rpm)
 
 # Dynamic Scrolling Background
 class BackgroundScroll(pygame.sprite.Sprite):

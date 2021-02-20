@@ -7,7 +7,6 @@ Drivetrain transmission ratios:
 2 gear | 2.53
 3 gear | 1.68
 4 gear | 1.02
-5 gear | 0.79
 
 """
 
@@ -18,7 +17,7 @@ def speed(engine_rpm, wheel_diameter, drive_train_ratio):
 
     # Max RPM Reached
     if rpm >= 6500:
-        return (6500*wheel_diameter*math.pi*60)/63360
+        return int(round((6500*wheel_diameter*math.pi*40)/63360))
     # Regular RPM Calculation
     else:
-        return (rpm*wheel_diameter*math.pi*60)/63360
+        return int(round((rpm*wheel_diameter*math.pi*40)/63360))
