@@ -10,6 +10,7 @@ Drivetrain transmission ratios:
 
 """
 
+"""
 # Input RPM, get speed
 def speed(engine_rpm, wheel_diameter, drive_train_ratio):
     # Theoretical RPM
@@ -21,3 +22,8 @@ def speed(engine_rpm, wheel_diameter, drive_train_ratio):
     # Regular RPM Calculation
     else:
         return int(round((rpm*wheel_diameter*math.pi*40)/63360))
+"""
+
+def speed(rpm, gear, ratio):
+    rpm /= 100
+    return round((0.05*rpm**2-0.02*rpm)/ratio + 10*(gear-1))

@@ -1,5 +1,8 @@
+import random
+
 # Pygame Library
 import pygame
+from pygame.locals import *
 pygame.init()
 
 # FPS Cap
@@ -15,12 +18,11 @@ screen = pygame.display.set_mode([SCREEN_WIDTH, SCREEN_HEIGHT])
 
 # Assets
 # Background Scroll
-bg = BackgroundScroll("../assets/bg.png", (SCREEN_WIDTH, SCREEN_HEIGHT))
+bg = BackgroundScroll((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Car :D
 car1 = Car("../assets/black_car.png", (340, 350))
 car2 = Car("../assets/blue_car.png", (410, 350))
-car2.update_position_index(4)
 
 # Run until user quits
 getTicksLastFrame = 0
@@ -35,13 +37,22 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == KEYDOWN:
+            if event.key == K_z:
+                car1.shift_up()
+            if event.key == K_s:
+                car1.shift_down()
+            if event.key == K_UP:
+                car2.shift_up()
+            if event.key == K_DOWN:
+                car2.shift_down()
 
     # Fill Screen to reset it
     screen.fill((0,0,0))
 
     # Draw Road
     bg.update(10, deltaTime)
-    screen.blit(bg.virtual_screen, (0,0))
+    screen.blit(bg.surface(), (0,0))
     
     # Draw Cars
     car1.update(deltaTime)
@@ -51,6 +62,11 @@ while running:
 
     # Draw Dashes
     screen.blit(car1.dash.surface, (10, 10))
+    screen.blit(car2.dash.surface, (640, 10))
+
+    # Debug
+    if id(car1.dash) == id(car2.dash):
+        exit()
 
     # Update Display
     pygame.display.flip()

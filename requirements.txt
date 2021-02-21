@@ -1,1 +1,2 @@
+# My name is polix and max didn't make this game
 pygame
