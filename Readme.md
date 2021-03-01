@@ -1,5 +1,6 @@
 # Shifty Game
 ### A 2D top-view drag-racing game
+It's not a great game. Was made as part of a school project.
 
 ## Installing the game
 ### Installing the pygame library
