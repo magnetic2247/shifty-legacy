@@ -22,7 +22,8 @@ class Car(pygame.sprite.Sprite):
 
     # Self explanatory
     def shift_up(self):
-        if 5500 > self.rpm > 6000: # Good Shift
-            self.good_shifts += 1
-        self.gear += 1
-        self.rpm -= 2000
+        if self.gear < 6: # Max Gear 6
+            if 5500 < self.rpm < 6000: # Good Shift
+                self.good_shifts += 1
+            self.gear += 1
+            self.rpm = 2500

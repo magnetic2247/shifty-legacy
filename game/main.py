@@ -1,27 +1,42 @@
+import time
+
 # Pygame Library
 import pygame 
 from pygame.locals import *
 
 # Clock
 clock = pygame.time.Clock()
+clock.tick(30)
 
 # Classes
 from bgscroll import *
 from cars import *
+from dash import *
 
 # Main Class
 class Main:
-    # Properties
+    # Car1 Properties
     car1 = Car("../assets/black_car.png")
+    dash1 = Dash()
+    car1_pos = (340,400)
+
+    # Car2 Properties
     car2 = Car("../assets/blue_car.png")
+    dash2 = Dash()
+    car2_pos = (410,400)
+
+    # Main Class Properties
     screen = None
     bg = None
+    race_distance = 1
+    race = True
 
     # Constructor
-    def __init__(self, scr_width, scr_height):
+    def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode([scr_width, scr_height])
-        self.bg = BackgroundScroll((scr_width, scr_height))
+        print(id(self.dash1) == id(self.dash2))
+        self.screen = pygame.display.set_mode([800,600])
+        self.bg = BackgroundScroll((800,600))
         self.start()
 
     # Start
@@ -44,19 +59,64 @@ class Main:
                         running = False
                     if event.key == K_LSHIFT: # Shift Car 1
                         self.car1.shift_up()
-                    if event.key == K_UP: # Shift Car 2
+                    if event.key == K_RSHIFT: # Shift Car 2
                         self.car2.shift_up()
 
-            # Fill Screen to reset it
-            self.screen.fill((0,0,0))
+            # Race distance
+            self.race_distance += int(100*deltaTime)
+            if self.race_distance >= 26480:
+                self.race = False
 
-            # Draw Road
-            bg.update(10, deltaTime)
-            self.screen.blit(self.bg.surface(), (0,0))
+            # Race going
+            if self.race:
+                # Increment RPM
+                if self.car1.rpm < 6500:
+                    self.car1.rpm += 5
+                if self.car2.rpm < 6500:
+                    self.car2.rpm += 5
 
-            # Draw Cars
-            self.screen.blit(self.car1.sprite, (50,50))
-            self.screen.blit(self.car2.sprite, (10,10))
+                # Calculate Car Positions
+                if self.car1.good_shifts > self.car2.good_shifts: # Driver1 has shifted better! Driver2 is Trash!
+                    self.car1_pos = (340,390)
+                    self.car2_pos = (410,400)
+                elif self.car2.good_shifts > self.car1.good_shifts: # Driver2 has shifted better! Driver1 is Trash!
+                    self.car1_pos = (340,400)
+                    self.car2_pos = (410,390)
+                else: # Both Drivers are Trash
+                    self.car1_pos = (340,400)
+                    self.car2_pos = (410,400)
+
+                # Fill Screen to reset it
+                self.screen.fill((0,0,0))
+
+                # Draw Road
+                self.bg.update(10, deltaTime)
+                self.screen.blit(self.bg.surface(), (0,0))
+
+                # Draw Cars
+                self.screen.blit(self.car1.sprite, self.car1_pos)
+                self.screen.blit(self.car2.sprite, self.car2_pos)
+
+                # Draw Dashes
+                self.dash1.update(self.car1.rpm, self.car1.gear, "Shifts " + str(self.car1.good_shifts))
+                self.screen.blit(self.dash1.surface, (0,10))
+                self.dash2.update(self.car2.rpm, self.car2.gear, "Shifts " + str(self.car2.good_shifts))
+                self.screen.blit(self.dash2.surface, (725,10))
+
+            else: # Race Finished
+                # Find out who won
+                if self.car1.good_shifts > self.car2.good_shifts: # Driver1 has shifted better! Driver2 is Trash!
+                    final_screen = pygame.image.load("../assets/p1.png")
+                elif self.car2.good_shifts > self.car1.good_shifts: # Driver2 has shifted better! Driver1 is Trash!
+                    final_screen = pygame.image.load("../assets/p2.png")
+                else: # Both Drivers are Trash
+                    final_screen = pygame.image.load("../assets/tie.png")
+
+                # Fill Screen to reset it
+                self.screen.fill((0,0,0))
+
+                # Show Winner
+                self.screen.blit(final_screen, (0,0))
 
             # Flip Display
             pygame.display.flip()
