@@ -45,7 +45,7 @@ class Car(pygame.sprite.Sprite):
     surface = None
     dash = None
     gear = 1
-    gear_ratios = [3.56,2.53,1.68,1.02]
+    gear_ratios = [3.56,2.53,1.68,1.02,0.79]
     rpm = 0
     speed = 0
 
@@ -72,8 +72,9 @@ class Car(pygame.sprite.Sprite):
     def update_gearbox(self, delta):
         # Plug in maths functions
         if self.rpm < 6500:
-            self.rpm = int(self.rpm+20*5*delta)
-        self.speed = maths.speed(self.rpm, self.gear, self.gear_ratios[self.gear-1])
+            self.rpm = int(self.rpm+15*5*delta)
+        #self.speed = maths.speed(self.rpm, self.gear, self.gear_ratios[self.gear-1])
+        self.speed = maths.speed(self.rpm, 20, self.gear_ratios[self.gear-1])
 
     # Shift Down
     def shift_down(self):
@@ -82,7 +83,7 @@ class Car(pygame.sprite.Sprite):
 
     # Shift Up
     def shift_up(self):
-        if self.gear < 4:
+        if self.gear < 5:
             self.gear += 1
             self.rpm = 5000
 
