@@ -21,3 +21,4 @@ It's not a great game. Was made as part of a school project.
 - Polis Minus [https://github.com/magnetic2247](https://github.com/magnetic2247)
 - Max Schneider
 - Benji Wong
+- Issa El Kourdi
