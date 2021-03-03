@@ -9,11 +9,20 @@ class Dash(pygame.sprite.Sprite):
 
     # Constructor
     def __init__(self):
+        """
+        Entrée: None
+        Sortie: None
+        """
         # Call Sprite Constructor
         pygame.sprite.Sprite.__init__(self)
 
     # Update 
     def update(self, rpm, gear, text=" "):
+        """
+        Entrée: RPM, Vitesse Actuelle, Texte Optionel
+        Sortie: None
+        """
+
         # Font
         if self.font == None:
             self.font = pygame.font.Font("../assets/font.ttf", 10)

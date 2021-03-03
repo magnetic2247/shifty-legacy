@@ -33,6 +33,10 @@ class Main:
 
     # Constructor
     def __init__(self):
+        """
+        Entrée: None
+        Sortie: None
+        """
         pygame.init()
         print(id(self.dash1) == id(self.dash2))
         self.screen = pygame.display.set_mode([800,600])
@@ -41,6 +45,10 @@ class Main:
 
     # Start
     def start(self):
+        """
+        Entrée: None
+        Sortie: None
+        """
         # Main Loop
         getTicksLastFrame = 0
         running = True
