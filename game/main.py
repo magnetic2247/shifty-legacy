@@ -109,7 +109,7 @@ class Main:
                 self.dash1.update(self.car1.rpm, self.car1.gear, "Shifts " + str(self.car1.good_shifts))
                 self.screen.blit(self.dash1.surface, (0,10))
                 self.dash2.update(self.car2.rpm, self.car2.gear, "Shifts " + str(self.car2.good_shifts))
-                self.screen.blit(self.dash2.surface, (725,10))
+                self.screen.blit(self.dash2.surface, (700,10))
 
             else: # Race Finished
                 # Find out who won
